@@ -3,52 +3,46 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kotodama Ritual - Onmyōji Game</title>
+    <title>Kotodama Ritual - Onmyoji Game</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <div class="game-container">
+        <div class="header">
+            <div class="hp-bar">
+                <div class="hp-fill" id="hp-fill"></div>
+                <span class="hp-text">YOKAI HP</span>
+            </div>
+            <div class="timer">
+                <span>⏳</span> <span id="time-val">90</span>s
+            </div>
+        </div>
 
-    <div id="game-container">
-        <header class="status-bar">
-            <div class="hp-container">
-                <span>YOKAI HP</span>
-                <div class="hp-bar-bg">
-                    <div id="hp-fill" style="width: 100%;"></div>
-                </div>
-            </div>
-            <div class="timer-container">
-                <span>⏱️ <span id="time-val">90</span>s</span>
-            </div>
-        </header>
+        <div class="word-zone" id="word-zone">
+            <div class="letter-slot"></div>
+            <div class="letter-slot"></div>
+            <div class="letter-slot"></div>
+            <div class="letter-slot"></div>
+            <div class="letter-slot"></div>
+        </div>
 
-        <main class="arena">
-            <div class="yokai-sprite">
-                <div class="yokai-glow"></div>
-                <img src="https://api.dicebear.com/7.x/bottts/svg?seed=yokai" alt="Yokai">
-            </div>
-            
-            <div class="word-zone" id="word-zone">
-                <span class="placeholder">Susun Kotodama...</span>
-            </div>
-        </main>
+        <div class="controls">
+            <button onclick="clearWord()" class="btn btn-clear">Hapus</button>
+            <button onclick="confirmWord()" class="btn btn-confirm">SEGEL!</button>
+            <button onclick="shuffleDeck()" class="btn btn-shuffle">Acak Deck (-5s)</button>
+        </div>
 
-        <footer class="player-area">
-            <div class="controls">
-                <button onclick="clearWord()" class="btn-alt">BATAL</button>
-                <button onclick="shuffleDeck()" class="btn-alt">SHUFFLE (-5s)</button>
-                <button onclick="confirmWord()" class="btn-primary">KONFIRMASI</button>
+        <div class="card-area">
+            <div class="deck-visual">
+                <div class="deck-stack"></div>
+                <div class="deck-count"><span id="deck-val">46</span> Kartu</div>
             </div>
-            
             <div class="hand" id="player-hand">
-                <div class="card">あ</div>
-                <div class="card">い</div>
-                <div class="card">う</div>
-                <div class="card">え</div>
-                <div class="card">お</div>
-            </div>
-        </footer>
+                </div>
+        </div>
     </div>
 
+    <script src="dictionary.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
