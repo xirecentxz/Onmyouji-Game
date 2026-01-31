@@ -1,9 +1,7 @@
 :root {
     --gold: #d4af37;
     --red: #c0392b;
-    /* Transparansi kaca 50% agar background terlihat */
-    --glass: rgba(0, 0, 0, 0.5); 
-    /* Bayangan putih 20% untuk efek timbul sesuai permintaan */
+    --glass: rgba(0, 0, 0, 0.6); 
     --white-glow: rgba(255, 255, 255, 0.2);
 }
 
@@ -27,58 +25,58 @@ body {
     width: 90%;
     max-width: 420px;
     background: var(--glass);
-    
-    /* Efek Blur Kaca */
     backdrop-filter: blur(15px); 
     -webkit-backdrop-filter: blur(15px);
-    
     border: 1px solid rgba(212, 175, 55, 0.3);
     border-radius: 28px;
     padding: 30px;
-
-    /* EFEK TIMBUL: Shadow hitam untuk kedalaman + Glow putih 20% di sekeliling */
-    box-shadow: 
-        0 20px 50px rgba(0, 0, 0, 0.8), 
-        0 0 20px var(--white-glow);      
-    
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8), 0 0 20px var(--white-glow);      
     display: flex;
     flex-direction: column;
     gap: 25px;
-    
-    /* Animasi mengambang agar terasa mistis */
     animation: float 4s ease-in-out infinite;
 }
 
-/* Keyframes efek mengambang */
 @keyframes float {
     0% { transform: translateY(0px); }
     50% { transform: translateY(-10px); }
     100% { transform: translateY(0px); }
 }
 
-/* Status HP & Timer */
+/* --- HEADER & TIMER --- */
 .header {
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
 
+/* Pastikan Timer berwarna putih dan jelas */
+#time-val, .timer {
+    color: #ffffff !important;
+    font-weight: bold;
+    font-size: 18px;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.9);
+}
+
+/* --- HP BAR SYSTEM --- */
 .hp-bar {
     flex-grow: 1;
     height: 22px;
     background: #1a1a1a;
-    border: 2px solid var(--red);
+    border: 2px solid rgba(255,255,255,0.1);
     border-radius: 11px;
     position: relative;
     margin-right: 15px;
     overflow: hidden;
+    box-shadow: inset 0 2px 5px rgba(0,0,0,0.5);
 }
 
-.hp-fill {
+/* Animasi perubahan warna via JS akan mengisi background ini */
+#hp-fill {
     width: 100%;
     height: 100%;
-    background: linear-gradient(90deg, #ff4d4d, #c0392b);
-    transition: width 0.5s ease-out;
+    background-color: #2ecc71; /* Warna awal Hijau */
+    transition: width 0.5s ease-out, background-color 0.5s ease;
 }
 
 .hp-text {
@@ -90,9 +88,10 @@ body {
     color: white;
     top: 3px;
     text-shadow: 1px 1px 2px black;
+    z-index: 2;
 }
 
-/* Word Zone Slots - Efek Glass */
+/* --- WORD ZONE --- */
 .word-zone {
     display: flex;
     justify-content: center;
@@ -119,7 +118,7 @@ body {
     transform: scale(1.05);
 }
 
-/* Tombol */
+/* --- CONTROLS --- */
 .controls {
     display: flex;
     gap: 10px;
@@ -137,22 +136,17 @@ body {
 }
 
 .btn-confirm { background: var(--gold); color: black; }
+.btn-confirm:hover { background: #f1c40f; transform: translateY(-2px); }
+
 .btn-clear { background: #555; color: white; }
 .btn-shuffle { background: #2c3e50; color: #bdc3c7; }
 
-/* Deck & Hand Area */
+/* --- CARD AREA --- */
 .card-area {
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 15px;
-}
-
-.deck-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-bottom: 10px;
 }
 
 .deck-stack {
