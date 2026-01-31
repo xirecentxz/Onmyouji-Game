@@ -1,5 +1,5 @@
 /**
- * KOTODAMA RITUAL - CORE ENGINE (LEVEL SYSTEM UPGRADE)
+ * KOTODAMA RITUAL - CORE ENGINE (LEVEL SYSTEM + RECYCLE DECK)
  */
 
 let ALL_LEVELS_DATA = null;
@@ -23,28 +23,26 @@ let gameActive = false;
  */
 async function loadDatabase() {
     try {
-        console.log("Membuka kitab mantra level...");
         const response = await fetch('database.json');
         const data = await response.json();
         ALL_LEVELS_DATA = data.levels;
-        
         initLevel(currentLevel);
     } catch (error) {
         console.error("Gagal memuat database.json:", error);
-        alert("Kitab mantra (database.json) tidak ditemukan!");
+        alert("Kitab mantra tidak ditemukan!");
     }
 }
 
 function initLevel(level) {
     if (!ALL_LEVELS_DATA[level]) {
-        alert("🎉 SELAMAT! Anda telah menyegel semua Yokai dari segala level!");
+        alert("🎉 SELAMAT! Anda telah menyegel semua Yokai!");
         location.reload();
         return;
     }
 
     const levelData = ALL_LEVELS_DATA[level];
     
-    // Khusus Level 10: Gabungkan semua kata dari level 1-9
+    // Level 10: Gabungan semua kata
     if (level === 10) {
         let allWords = [];
         for (let i = 1; i <= 9; i++) {
@@ -55,7 +53,6 @@ function initLevel(level) {
         VALID_WORDS = new Set(levelData.words);
     }
 
-    // Reset State Game
     yokaiHP = 100;
     timeLeft = 90;
     deck = [...HIRAGANA_DECK];
@@ -132,6 +129,7 @@ function clearWord() {
     renderHand();
 }
 
+// UPDATE: Fungsi Konfirmasi Mantra dengan Reshuffle Otomatis
 function confirmWord() {
     const word = selectedLetters.join('');
     
@@ -141,12 +139,19 @@ function confirmWord() {
         timeLeft += 5; 
         
         alert(`✨ KOTODAMA AKTIF: ${word}! HP Yokai -${damage}`);
+
+        // --- LOGIKA RECYCLE DECK ---
+        // Masukkan kembali kartu yang sukses digunakan ke dalam tumpukan deck
+        deck.push(...selectedLetters); 
+        
+        // Kocok ulang deck agar kartu yang baru masuk tidak selalu di bawah
+        shuffle(deck); 
         
         selectedLetters = [];
         drawCards();
     } else {
         timeLeft -= 5;
-        alert(`💀 ${word} bukan mantra valid untuk level ini!`);
+        alert(`💀 ${word} bukan mantra valid!`);
         clearWord();
     }
     updateUI();
@@ -168,12 +173,10 @@ function shuffleDeck() {
  * 3. UI & HP COLOR SYSTEM
  */
 function updateUI() {
-    // Update HP Fill & Warna Dinamis
     const hpFill = document.getElementById('hp-fill');
     if (hpFill) {
         hpFill.style.width = yokaiHP + "%";
         
-        // Logika Warna HP (0-30-70-100)
         if (yokaiHP <= 30) {
             hpFill.style.backgroundColor = "#ff4d4d"; // Merah
         } else if (yokaiHP <= 70) {
@@ -183,15 +186,12 @@ function updateUI() {
         }
     }
 
-    // Update Timer (Warna Putih dikontrol CSS)
     const timerEl = document.getElementById('time-val');
     if (timerEl) timerEl.innerText = timeLeft;
 
-    // Update Deck Count
     const deckVal = document.getElementById('deck-val');
     if (deckVal) deckVal.innerText = deck.length;
 
-    // Cek Kemenangan Level
     if (yokaiHP <= 0 && gameActive) {
         checkLevelClear();
     }
@@ -214,7 +214,6 @@ function startTimer() {
     const timerEl = document.getElementById('time-val');
     const interval = setInterval(() => {
         if (!gameActive) {
-            // Timer tidak berhenti, hanya menunggu level baru aktif kembali
             if (yokaiHP <= 0) return; 
             clearInterval(interval); 
             return; 
