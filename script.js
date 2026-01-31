@@ -1,67 +1,82 @@
 /**
- * KOTODAMA RITUAL - CORE ENGINE
- * Menggunakan database.json dari Kotonogi API
+ * KOTODAMA RITUAL - CORE ENGINE (LEVEL SYSTEM UPGRADE)
  */
 
+let ALL_LEVELS_DATA = null;
 let VALID_WORDS = new Set();
 const HIRAGANA_DECK = [
     'あ','い','う','え','お','か','き','く','け','こ','さ','し','す','せ','そ',
-    'た','ち','つ','て','と','na','に','ぬ','ね','の','は','ひ','ふ','へ','ほ',
-    'ま','み','む','me','も','や','ゆ','よ','ら','り','る','れ','ろ','わ','を','ん'
+    'た','ち','つ','て','と','な','に','ぬ','ね','の','は','ひ','ふ','へ','ほ',
+    'ま','み','む','め','も','や','ゆ','よ','ら','り','る','れ','ろ','わ','を','ん'
 ];
 
+let currentLevel = 1;
 let deck = [...HIRAGANA_DECK];
 let hand = [];
 let selectedLetters = [];
 let timeLeft = 90;
 let yokaiHP = 100;
-let gameActive = false; // Game baru aktif setelah database di-load
+let gameActive = false;
 
 /**
- * 1. LOADING DATABASE
- * Mengambil file database.json yang di-upload ke GitHub
+ * 1. LOADING DATABASE & LEVEL SYSTEM
  */
 async function loadDatabase() {
     try {
-        console.log("Membuka kitab mantra...");
+        console.log("Membuka kitab mantra level...");
         const response = await fetch('database.json');
         const data = await response.json();
-
-        // Ekstraksi otomatis dari Hiragana, Dakuten, Handakuten, dan Yoon
-        const categories = ['hiragana', 'dakuten', 'handakuten', 'yoon'];
+        ALL_LEVELS_DATA = data.levels;
         
-        categories.forEach(cat => {
-            if (data[cat] && data[cat].hiragana_huruf) {
-                data[cat].hiragana_huruf.forEach(huruf => {
-                    if (huruf.kosakata) {
-                        huruf.kosakata.forEach(item => {
-                            // Masukkan kata kana ke kamus validasi
-                            VALID_WORDS.add(item.kana.trim());
-                        });
-                    }
-                });
-            }
-        });
-
-        console.log("Ritual Siap! Total mantra:", VALID_WORDS.size);
-        gameActive = true;
-        initGame();
+        initLevel(currentLevel);
     } catch (error) {
         console.error("Gagal memuat database.json:", error);
         alert("Kitab mantra (database.json) tidak ditemukan!");
     }
 }
 
-/**
- * 2. GAME LOGIC
- */
-function initGame() {
+function initLevel(level) {
+    if (!ALL_LEVELS_DATA[level]) {
+        alert("🎉 SELAMAT! Anda telah menyegel semua Yokai dari segala level!");
+        location.reload();
+        return;
+    }
+
+    const levelData = ALL_LEVELS_DATA[level];
+    
+    // Khusus Level 10: Gabungkan semua kata dari level 1-9
+    if (level === 10) {
+        let allWords = [];
+        for (let i = 1; i <= 9; i++) {
+            allWords = allWords.concat(ALL_LEVELS_DATA[i].words);
+        }
+        VALID_WORDS = new Set(allWords);
+    } else {
+        VALID_WORDS = new Set(levelData.words);
+    }
+
+    // Reset State Game
+    yokaiHP = 100;
+    timeLeft = 90;
+    deck = [...HIRAGANA_DECK];
+    hand = [];
+    selectedLetters = [];
+    
     shuffle(deck);
     drawCards();
-    startTimer();
+    
+    if (!gameActive) {
+        gameActive = true;
+        startTimer();
+    }
+    
+    alert(`📜 MEMULAI ${levelData.level_name}\nTema: ${levelData.tema}`);
     updateUI();
 }
 
+/**
+ * 2. GAME LOGIC
+ */
 function shuffle(array) {
     for (let i = array.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
@@ -79,6 +94,7 @@ function drawCards() {
 
 function renderHand() {
     const handEl = document.getElementById('player-hand');
+    if (!handEl) return;
     handEl.innerHTML = '';
     hand.forEach((char, index) => {
         const card = document.createElement('div');
@@ -120,7 +136,6 @@ function confirmWord() {
     const word = selectedLetters.join('');
     
     if (VALID_WORDS.has(word)) {
-        // Mantra Berhasil
         const damage = word.length * 20;
         yokaiHP = Math.max(0, yokaiHP - damage);
         timeLeft += 5; 
@@ -130,9 +145,8 @@ function confirmWord() {
         selectedLetters = [];
         drawCards();
     } else {
-        // Mantra Gagal
         timeLeft -= 5;
-        alert(`💀 ${word} bukan mantra yang valid!`);
+        alert(`💀 ${word} bukan mantra valid untuk level ini!`);
         clearWord();
     }
     updateUI();
@@ -150,28 +164,64 @@ function shuffleDeck() {
     updateUI();
 }
 
+/**
+ * 3. UI & HP COLOR SYSTEM
+ */
 function updateUI() {
-    // Update HP
+    // Update HP Fill & Warna Dinamis
     const hpFill = document.getElementById('hp-fill');
-    if(hpFill) hpFill.style.width = yokaiHP + "%";
-
-    // Update Deck Count (Agar tidak tertumpuk)
-    const deckVal = document.getElementById('deck-val');
-    if(deckVal) deckVal.innerText = deck.length;
-
-    if (yokaiHP <= 0) {
-        gameActive = false;
-        alert("🎉 RITUAL BERHASIL! Yokai telah tersegel.");
-        location.reload();
+    if (hpFill) {
+        hpFill.style.width = yokaiHP + "%";
+        
+        // Logika Warna HP (0-30-70-100)
+        if (yokaiHP <= 30) {
+            hpFill.style.backgroundColor = "#ff4d4d"; // Merah
+        } else if (yokaiHP <= 70) {
+            hpFill.style.backgroundColor = "#f1c40f"; // Kuning
+        } else {
+            hpFill.style.backgroundColor = "#2ecc71"; // Hijau
+        }
     }
+
+    // Update Timer (Warna Putih dikontrol CSS)
+    const timerEl = document.getElementById('time-val');
+    if (timerEl) timerEl.innerText = timeLeft;
+
+    // Update Deck Count
+    const deckVal = document.getElementById('deck-val');
+    if (deckVal) deckVal.innerText = deck.length;
+
+    // Cek Kemenangan Level
+    if (yokaiHP <= 0 && gameActive) {
+        checkLevelClear();
+    }
+}
+
+function checkLevelClear() {
+    gameActive = false;
+    setTimeout(() => {
+        const next = confirm(`✨ RITUAL BERHASIL!\nLevel ${currentLevel} Selesai.\nLanjut ke Level Berikutnya?`);
+        if (next) {
+            currentLevel++;
+            initLevel(currentLevel);
+        } else {
+            location.reload();
+        }
+    }, 500);
 }
 
 function startTimer() {
     const timerEl = document.getElementById('time-val');
     const interval = setInterval(() => {
-        if (!gameActive) { clearInterval(interval); return; }
+        if (!gameActive) {
+            // Timer tidak berhenti, hanya menunggu level baru aktif kembali
+            if (yokaiHP <= 0) return; 
+            clearInterval(interval); 
+            return; 
+        }
+        
         timeLeft--;
-        if(timerEl) timerEl.innerText = timeLeft;
+        if (timerEl) timerEl.innerText = timeLeft;
         
         if (timeLeft <= 0) {
             clearInterval(interval);
@@ -181,5 +231,4 @@ function startTimer() {
     }, 1000);
 }
 
-// Menjalankan loading database saat web dibuka
 window.onload = loadDatabase;
