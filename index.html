@@ -9,12 +9,14 @@
 <body>
     <div class="game-container">
         <div class="header">
-            <div class="hp-bar">
-                <div class="hp-fill" id="hp-fill"></div>
-                <span class="hp-text">YOKAI HP</span>
+            <div class="hp-section">
+                <div class="hp-bar">
+                    <div class="hp-fill" id="hp-fill"></div>
+                    <span class="hp-text">YOKAI HP</span>
+                </div>
             </div>
-            <div class="timer">
-                <span id="time-val">90</span>s ⏳
+            <div class="timer-section">
+                <span id="time-val">90</span>s <span class="icon">⏳</span>
             </div>
         </div>
 
@@ -37,13 +39,12 @@
             <button onclick="clearWord()" class="btn btn-clear">Hapus</button>
             <button id="confirm-btn" onclick="confirmWord()" class="btn btn-confirm" disabled>SEGEL!</button>
             <button id="hint-btn" onclick="showHint()" class="btn btn-hint">Onmyouroku</button>
-            <button onclick="shuffleDeck()" class="btn btn-shuffle">Acak Deck (-3s)</button>
+            <button onclick="shuffleDeck()" class="btn btn-shuffle">Acak (-3s)</button>
         </div>
 
         <div class="card-area">
-            <div class="deck-container">
-                <div class="deck-stack"></div>
-                <div class="deck-info"><span id="deck-val">71</span> Kartu</div>
+            <div class="deck-status">
+                <span class="deck-icon">🎴</span> <span id="deck-val">71</span> Kartu Tersisa
             </div>
             <div class="hand" id="player-hand"></div>
         </div>
