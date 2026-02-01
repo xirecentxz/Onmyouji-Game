@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kotodama Ritual - Onmyoji Game</title>
-    <link rel="stylesheet" href="style.css?v=1.2">
+    <link rel="stylesheet" href="style.css?v=1.3">
 </head>
 <body>
     <div class="game-container">
@@ -53,15 +53,15 @@
     <div id="modal-overlay" class="overlay">
         <div class="modal">
             <h2 id="modal-title">RITUAL BERHASIL!</h2>
-            <p id="modal-desc">Yokai telah tersegel.</p>
+            <p id="modal-desc">Yokai telah tersegel ke dalam kitab.</p>
             <div class="modal-buttons">
-                <button id="btn-prev" class="btn" onclick="changeLevel(-1)">Level Sebelumnya</button>
-                <button class="btn btn-confirm" onclick="retryLevel()">Main Lagi</button>
-                <button id="btn-next" class="btn" onclick="changeLevel(1)">Next Level</button>
+                <button id="btn-prev" class="btn btn-nav" onclick="changeLevel(-1)">Level Sebelumnya</button>
+                <button class="btn btn-retry" onclick="retryLevel()">Main Lagi</button>
+                <button id="btn-next" class="btn btn-nav" onclick="changeLevel(1)">Next Level</button>
             </div>
         </div>
     </div>
 
-    <script src="script.js?v=1.2"></script>
+    <script src="script.js?v=1.3"></script>
 </body>
 </html>
