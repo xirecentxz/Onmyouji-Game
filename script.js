@@ -2,16 +2,17 @@ let ALL_LEVELS_DATA = null;
 let VALID_WORDS = new Set();
 let currentLevel = 1;
 
-// Pembersihan Hiragana murni berdasarkan dokumen desain 
+// Pembersihan Hiragana murni berdasarkan komposisi 71 kartu
 const DECK_DATA = {
     3: ['ん','い','う','え','あ','し','た','の','る','か','て'],
-    2: ['さ','と','な','も','こ','は','ま','や','よ','き'],
+    2: ['さ','と','na','も','こ','は','ま','や','よ','き'],
     1: ['り','お','く','が','ぎ','ぐ','ご','ば','ぱ','ふ','ひ','へ','ほ','わ','ち','つ']
 };
 
 let deck = []; let hand = []; let selectedLetters = [];
 let timeLeft = 90; let yokaiHP = 100; let gameActive = false;
 let timerInt = null;
+let hasUsedHintThisLevel = false; // Flag untuk pembatasan Onmyouroku
 
 async function loadDatabase() {
     try {
@@ -38,6 +39,15 @@ function initLevel(level) {
     VALID_WORDS = new Set(data.words);
     yokaiHP = 100; timeLeft = 90; hand = []; selectedLetters = [];
     
+    // Reset status Onmyouroku setiap kali masuk level baru
+    hasUsedHintThisLevel = false;
+    const hintBtn = document.getElementById('hint-btn');
+    if(hintBtn) {
+        hintBtn.disabled = false;
+        hintBtn.innerText = "Onmyouroku";
+        hintBtn.style.opacity = "1";
+    }
+
     document.getElementById('level-banner').innerText = `Level ${level} (${data.category})`;
     document.getElementById('modal-overlay').style.display = 'none';
     
@@ -67,7 +77,6 @@ function updateUI() {
 function confirmWord() {
     const word = selectedLetters.join('');
     if (VALID_WORDS.has(word)) {
-        // Damage berdasarkan panjang kata [cite: 24]
         yokaiHP = Math.max(0, yokaiHP - (word.length * 25));
         const main = selectedLetters.filter(c => !['ゃ','ゅ','ょ','っ'].includes(c));
         deck.push(...main); 
@@ -111,7 +120,6 @@ function retryLevel() {
 }
 
 function drawCards() {
-    // Selalu memegang 7 kartu [cite: 7, 20]
     while (hand.length < 7 && deck.length >= 7) {
         let trial = deck.slice(0, 7);
         if (canFormWord(trial) || deck.length < 14) {
@@ -153,7 +161,6 @@ function renderHand() {
 }
 
 function addSupport(c) {
-    // Support card untuk membantu membuat kata [cite: 16, 28, 35]
     if (selectedLetters.length < 5) {
         selectedLetters.push(c);
         renderWordZone();
@@ -166,7 +173,6 @@ function renderWordZone() {
         s.innerText = selectedLetters[i] || "";
         s.classList.toggle('active', !!selectedLetters[i]);
     });
-    // Validasi minimal 2 kartu untuk menyala [cite: 21]
     document.getElementById('confirm-btn').disabled = selectedLetters.length < 2;
 }
 
@@ -176,7 +182,6 @@ function clearWord() {
 }
 
 function shuffleDeck() {
-    // Penalti waktu 3 detik saat shuffle [cite: 33]
     if (timeLeft <= 3) return;
     timeLeft -= 3;
     const main = hand.concat(selectedLetters.filter(c => !['ゃ','ゅ','ょ','っ'].includes(c)));
@@ -184,8 +189,10 @@ function shuffleDeck() {
     shuffle(deck); drawCards(); renderWordZone(); updateUI();
 }
 
+// LOGIKA ONMYOUROKU: 1x Per Level
 function showHint() {
-    // Onmyouroku sebagai cheat database [cite: 28, 35]
+    if (hasUsedHintThisLevel) return;
+
     const cards = document.querySelectorAll('.hand .card');
     VALID_WORDS.forEach(w => {
         let t = [...hand]; let match = [];
@@ -194,9 +201,21 @@ function showHint() {
             if (idx !== -1) { match.push(idx); t[idx] = null; }
             else { match = []; break; }
         }
-        match.forEach(idx => cards[idx].classList.add('hint-glow'));
+        match.forEach(idx => {
+            if(cards[idx]) cards[idx].classList.add('hint-glow');
+        });
     });
-    setTimeout(() => cards.forEach(c => c.classList.remove('hint-glow')), 2000);
+
+    // Tandai sudah digunakan
+    hasUsedHintThisLevel = true;
+    const hintBtn = document.getElementById('hint-btn');
+    hintBtn.disabled = true;
+    hintBtn.innerText = "Sudah Digunakan";
+    hintBtn.style.opacity = "0.5";
+
+    setTimeout(() => {
+        cards.forEach(c => c.classList.remove('hint-glow'));
+    }, 3000);
 }
 
 function shuffle(array) {
