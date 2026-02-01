@@ -2,11 +2,10 @@ let ALL_LEVELS_DATA = null;
 let VALID_WORDS = new Set();
 let currentLevel = 1;
 
-// Komposisi 71 kartu hiragana murni
 const DECK_DATA = {
-    3: ['ん','い','う','え','あ','し','た','\u306e','る','か','て'],
+    3: ['ん','い','う','え','あ','し','た','の','る','か','て'],
     2: ['さ','と','な','も','こ','は','ま','や','よ','き'],
-    1: ['り','お','く','が','ぎ','ぐ','ご','ば','ぱ','ふ','ひ','へ','ほ','わ','ち','つ']
+    1: ['り','お','く','가','ぎ','ぐ','ご','ば','ぱ','ふ','ひ','へ','ほ','わ','ち','つ']
 };
 
 let deck = []; let hand = []; let selectedLetters = [];
@@ -75,7 +74,6 @@ function updateUI() {
     document.getElementById('deck-val').innerText = deck.length;
 }
 
-// Logika Konfirmasi Kata (Penalti -5 detik jika salah)
 function confirmWord() {
     const word = selectedLetters.join('');
     if (VALID_WORDS.has(word)) {
@@ -96,7 +94,7 @@ function confirmWord() {
     updateUI();
 }
 
-// Efek Visual Flash Merah pada Timer
+// Efek Visual Flash Merah (Digunakan untuk Salah Mantra & Acak Deck)
 function showFlashError() {
     const timerSection = document.querySelector('.timer-section');
     if(timerSection) {
@@ -109,14 +107,22 @@ function showFlashError() {
     }
 }
 
-// Logika Acak Deck (Penalti -3 detik)
+// UPDATE: Sekarang memicu Flash Merah saat memotong -3 detik
 function shuffleDeck() {
     if (timeLeft <= 3) return;
+    
     timeLeft -= 3;
-    showFlashError();
+    showFlashError(); // Efek merah sekarang aktif di sini
+    
     const main = hand.concat(selectedLetters.filter(c => !['ゃ','ゅ','ょ','っ'].includes(c)));
-    deck.push(...main); hand = []; selectedLetters = [];
-    shuffle(deck); drawCards(); renderWordZone(); updateUI();
+    deck.push(...main); 
+    hand = []; 
+    selectedLetters = [];
+    
+    shuffle(deck); 
+    drawCards(); 
+    renderWordZone(); 
+    updateUI();
 }
 
 function showEndModal(isWin) {
@@ -209,7 +215,6 @@ function clearWord() {
     selectedLetters = []; renderHand(); renderWordZone();
 }
 
-// Onmyouroku (1x per level)
 function showHint() {
     if (hasUsedHintThisLevel) return;
     const cards = document.querySelectorAll('.hand .card');
