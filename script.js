@@ -1,9 +1,11 @@
 let ALL_LEVELS_DATA = null;
 let VALID_WORDS = new Set();
+
+// PERBAIKAN: Semua Romaji diubah ke Hiragana sesuai desain dokumen
 const DECK_DATA = {
     3: ['ん','い','う','え','あ','し','た','の','る','か','て'],
-    2: ['さ','と','na','も','こ','は','ま','や','よ','き'],
-    1: ['り','お','く','が','ぎ','ぐ','ご','ba','pa','ふ','ひ','へ','ほ','わ','ち','つ']
+    2: ['さ','と','な','も','こ','は','ま','や','よ','き'],
+    1: ['り','お','く','が','ぎ','ぐ','ご','ば','ぱ','ふ','ひ','へ','ほ','わ','ち','つ']
 };
 
 let deck = []; let hand = []; let selectedLetters = [];
@@ -13,7 +15,9 @@ let lastHintTime = 0;
 function buildDeck() {
     deck = [];
     for (let n in DECK_DATA) {
-        DECK_DATA[n].forEach(c => { for(let i=0; i<n; i++) deck.push(c); });
+        DECK_DATA[n].forEach(c => { 
+            for(let i=0; i < parseInt(n); i++) deck.push(c); 
+        });
     }
     shuffle(deck);
 }
@@ -55,6 +59,7 @@ function drawCards() {
         shuffle(deck); attempts++;
     }
     renderHand();
+    updateUI();
 }
 
 function canFormWord(testHand) {
@@ -71,6 +76,7 @@ function canFormWord(testHand) {
 
 function renderHand() {
     const el = document.getElementById('player-hand');
+    if(!el) return;
     el.innerHTML = '';
     hand.forEach((c, i) => {
         const card = document.createElement('div');
@@ -105,24 +111,31 @@ function confirmWord() {
     const word = selectedLetters.join('');
     if (VALID_WORDS.has(word)) {
         yokaiHP = Math.max(0, yokaiHP - (word.length * 20));
-        deck.push(...selectedLetters.filter(c => !['ゃ','ゅ','ょ','っ'].includes(c)));
-        shuffle(deck); selectedLetters = [];
-        drawCards(); renderWordZone();
+        // Kembalikan kartu utama ke deck, abaikan support card
+        const mainCards = selectedLetters.filter(c => !['ゃ','ゅ','ょ','っ'].includes(c));
+        deck.push(...mainCards);
+        shuffle(deck); 
+        selectedLetters = [];
+        drawCards(); 
     } else {
         clearWord();
     }
+    renderWordZone();
     updateUI();
 }
 
 function clearWord() {
-    selectedLetters.forEach(c => { if (!['ゃ','ゅ','ょ','っ'].includes(c)) hand.push(c); });
+    selectedLetters.forEach(c => { 
+        if (!['ゃ','ゅ','ょ','っ'].includes(c)) hand.push(c); 
+    });
     selectedLetters = []; renderHand(); renderWordZone();
 }
 
 function shuffleDeck() {
     if (timeLeft <= 3) return;
     timeLeft -= 3;
-    deck.push(...hand, ...selectedLetters.filter(c => !['ゃ','ゅ','ょ','っ'].includes(c)));
+    const mainCards = hand.concat(selectedLetters.filter(c => !['ゃ','ゅ','ょ','っ'].includes(c)));
+    deck.push(...mainCards);
     hand = []; selectedLetters = [];
     shuffle(deck); drawCards(); renderWordZone(); updateUI();
 }
@@ -141,16 +154,31 @@ function showHint() {
     });
     setTimeout(() => cards.forEach(c => c.classList.remove('hint-glow')), 2000);
     lastHintTime = Date.now();
+    
+    // Cooldown UI hint
+    const btn = document.getElementById('hint-btn');
+    btn.disabled = true;
+    setTimeout(() => btn.disabled = false, 5000);
 }
 
 function updateUI() {
-    document.getElementById('hp-fill').style.width = yokaiHP + "%";
+    const fill = document.getElementById('hp-fill');
+    if(fill) fill.style.width = yokaiHP + "%";
     document.getElementById('time-val').innerText = timeLeft;
     document.getElementById('deck-val').innerText = deck.length;
 }
 
 function startTimer() {
-    setInterval(() => { if (gameActive && timeLeft > 0) { timeLeft--; updateUI(); } }, 1000);
+    const timer = setInterval(() => { 
+        if (gameActive && timeLeft > 0) { 
+            timeLeft--; 
+            updateUI(); 
+        } else if (timeLeft <= 0) {
+            clearInterval(timer);
+            alert("💀 Ritual Gagal! Yokai menyerang!");
+            location.reload();
+        }
+    }, 1000);
 }
 
 window.onload = loadDatabase;
