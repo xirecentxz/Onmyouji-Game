@@ -4,10 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kotodama Ritual - Onmyoji Game</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css?v=1.2">
 </head>
 <body>
     <div class="game-container">
+        <div class="level-banner" id="level-banner">Level 1 (Hewan)</div>
+
         <div class="header">
             <div class="hp-section">
                 <div class="hp-bar">
@@ -16,7 +18,7 @@
                 </div>
             </div>
             <div class="timer-section">
-                <span id="time-val">90</span>s <span class="icon">⏳</span>
+                <span id="time-val">90</span>s ⏳
             </div>
         </div>
 
@@ -43,12 +45,23 @@
         </div>
 
         <div class="card-area">
-            <div class="deck-status">
-                <span class="deck-icon">🎴</span> <span id="deck-val">71</span> Kartu Tersisa
-            </div>
+            <div class="deck-status">🎴 <span id="deck-val">71</span> Kartu</div>
             <div class="hand" id="player-hand"></div>
         </div>
     </div>
-    <script src="script.js"></script>
+
+    <div id="modal-overlay" class="overlay">
+        <div class="modal">
+            <h2 id="modal-title">RITUAL BERHASIL!</h2>
+            <p id="modal-desc">Yokai telah tersegel.</p>
+            <div class="modal-buttons">
+                <button id="btn-prev" class="btn" onclick="changeLevel(-1)">Level Sebelumnya</button>
+                <button class="btn btn-confirm" onclick="retryLevel()">Main Lagi</button>
+                <button id="btn-next" class="btn" onclick="changeLevel(1)">Next Level</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js?v=1.2"></script>
 </body>
 </html>
