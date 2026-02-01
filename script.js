@@ -2,10 +2,11 @@ let ALL_LEVELS_DATA = null;
 let VALID_WORDS = new Set();
 let currentLevel = 1;
 
+// Komposisi 71 kartu hiragana murni
 const DECK_DATA = {
-    3: ['ん','い','う','え','あ','し','た','の','る','か','て'],
-    2: ['さ','と','な','も','こ','は','ま','ya','よ','き'],
-    1: ['り','お','く','가','ぎ','ぐ','ご','ば','ぱ','ふ','ひ','へ','ほ','わ','ち','つ']
+    3: ['ん','い','う','え','あ','し','た','\u306e','る','か','て'],
+    2: ['さ','と','な','も','こ','は','ま','や','よ','き'],
+    1: ['り','お','く','が','ぎ','ぐ','ご','ば','ぱ','ふ','ひ','へ','ほ','わ','ち','つ']
 };
 
 let deck = []; let hand = []; let selectedLetters = [];
@@ -46,7 +47,9 @@ function initLevel(level) {
         hintBtn.style.opacity = "1";
     }
 
-    document.getElementById('level-banner').innerText = `Level ${level} (${data.category})`;
+    const banner = document.getElementById('level-banner');
+    if(banner) banner.innerText = `Level ${level} (${data.category})`;
+    
     document.getElementById('modal-overlay').style.display = 'none';
     
     buildDeck();
@@ -72,11 +75,10 @@ function updateUI() {
     document.getElementById('deck-val').innerText = deck.length;
 }
 
-// LOGIKA PENALTI SALAH MANTRA (-5 DETIK)
+// Logika Konfirmasi Kata (Penalti -5 detik jika salah)
 function confirmWord() {
     const word = selectedLetters.join('');
     if (VALID_WORDS.has(word)) {
-        // BERHASIL
         yokaiHP = Math.max(0, yokaiHP - (word.length * 25));
         const main = selectedLetters.filter(c => !['ゃ','ゅ','ょ','っ'].includes(c));
         deck.push(...main); 
@@ -85,7 +87,7 @@ function confirmWord() {
         drawCards(); 
         if (yokaiHP <= 0) { gameActive = false; showEndModal(true); }
     } else {
-        // GAGAL: Penalti -5 Detik & Efek Visual
+        // Penalti -5 detik dan flash merah
         timeLeft = Math.max(0, timeLeft - 5);
         showFlashError();
         clearWord();
@@ -94,15 +96,27 @@ function confirmWord() {
     updateUI();
 }
 
-// Efek Merah saat Salah
+// Efek Visual Flash Merah pada Timer
 function showFlashError() {
-    const timerEl = document.querySelector('.timer-section');
-    timerEl.style.color = "#ff4d4d";
-    timerEl.style.transform = "scale(1.2)";
-    setTimeout(() => {
-        timerEl.style.color = "white";
-        timerEl.style.transform = "scale(1)";
-    }, 500);
+    const timerSection = document.querySelector('.timer-section');
+    if(timerSection) {
+        timerSection.style.color = "#ff4d4d";
+        timerSection.style.transform = "scale(1.2)";
+        setTimeout(() => {
+            timerSection.style.color = "white";
+            timerSection.style.transform = "scale(1)";
+        }, 500);
+    }
+}
+
+// Logika Acak Deck (Penalti -3 detik)
+function shuffleDeck() {
+    if (timeLeft <= 3) return;
+    timeLeft -= 3;
+    showFlashError();
+    const main = hand.concat(selectedLetters.filter(c => !['ゃ','ゅ','ょ','っ'].includes(c)));
+    deck.push(...main); hand = []; selectedLetters = [];
+    shuffle(deck); drawCards(); renderWordZone(); updateUI();
 }
 
 function showEndModal(isWin) {
@@ -195,14 +209,7 @@ function clearWord() {
     selectedLetters = []; renderHand(); renderWordZone();
 }
 
-function shuffleDeck() {
-    if (timeLeft <= 3) return;
-    timeLeft -= 3;
-    const main = hand.concat(selectedLetters.filter(c => !['ゃ','ゅ','ょ','っ'].includes(c)));
-    deck.push(...main); hand = []; selectedLetters = [];
-    shuffle(deck); drawCards(); renderWordZone(); updateUI();
-}
-
+// Onmyouroku (1x per level)
 function showHint() {
     if (hasUsedHintThisLevel) return;
     const cards = document.querySelectorAll('.hand .card');
@@ -217,9 +224,11 @@ function showHint() {
     });
     hasUsedHintThisLevel = true;
     const hintBtn = document.getElementById('hint-btn');
-    hintBtn.disabled = true;
-    hintBtn.innerText = "Sudah Digunakan";
-    hintBtn.style.opacity = "0.5";
+    if(hintBtn) {
+        hintBtn.disabled = true;
+        hintBtn.innerText = "Sudah Digunakan";
+        hintBtn.style.opacity = "0.5";
+    }
     setTimeout(() => { cards.forEach(c => c.classList.remove('hint-glow')); }, 3000);
 }
 
