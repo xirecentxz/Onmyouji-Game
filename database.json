@@ -2,24 +2,64 @@
   "levels": {
     "1": {
       "level_name": "Level 1: Rimba Purba",
-      "tema": "Hewan Dasar (Tanpa Modifier)",
+      "category": "Hewan Dasar",
       "words": [
-        "たぬき", "こうもり", "さるまね", "しか", "おおかみ",
-        "はと", "かも", "あひる", "さめ", "かに",
-        "たこ", "いか", "いるか", "かめ", "あり",
-        "はえ", "かえる", "くmo", "いもむし", "きつね",
-        "ねこ", "いぬ", "とり", "さかな", "くま",
-        "うし", "うま", "さる", "とら", "りす"
+        "たぬき", "しか", "はと", "かも", "さめ", 
+        "かに", "たこ", "いか", "かめ", "あり",
+        "はえ", "かえる", "くも", "きつね", "ねこ", 
+        "いぬ", "とり", "さかな", "くま", "うし", 
+        "うま", "さる", "とら", "りす"
       ]
     },
-    "2": { "level_name": "Level 2", "tema": "Makanan", "words": ["ごはん", "おちゃ", "すし"] },
-    "3": { "level_name": "Level 3", "tema": "Angka", "words": ["いち", "に", "さん"] },
-    "4": { "level_name": "Level 4", "tema": "Aktivitas", "words": ["いく", "ねる", "よむ"] },
-    "5": { "level_name": "Level 5", "tema": "Tempat", "words": ["いえ", "えき", "やま"] },
-    "6": { "level_name": "Level 6", "tema": "Keluarga", "words": ["はは", "ちち", "あね"] },
-    "7": { "level_name": "Level 7", "tema": "Benda", "words": ["ほん", "くつ", "かさ"] },
-    "8": { "level_name": "Level 8", "tema": "Warna", "words": ["あかい", "あおい", "しろい"] },
-    "9": { "level_name": "Level 9", "tema": "Alam", "words": ["あめ", "ゆき", "そら"] },
-    "10": { "level_name": "Level 10", "tema": "Ritual Campuran", "words": [] }
+    "2": {
+      "level_name": "Level 2: Gerbang Desa",
+      "category": "Percakapan",
+      "words": [
+        "おはよ", "はい", "いいえ", "どうぞ", "おやす",
+        "ただい", "おかえ", "なに", "どこ", "だれ",
+        "いつ", "どれ", "もしも", "あした", "げんき",
+        "まあま"
+      ]
+    },
+    "3": {
+      "level_name": "Level 3",
+      "category": "Angka",
+      "words": ["いち", "に", "さん", "よん", "ご", "ろく", "なな", "はち", "きゅう", "じゅう"]
+    },
+    "4": {
+      "level_name": "Level 4",
+      "category": "Aktivitas",
+      "words": ["いく", "ねる", "よむ", "みる", "たべる", "かく", "きく", "くる"]
+    },
+    "5": {
+      "level_name": "Level 5",
+      "category": "Tempat",
+      "words": ["いえ", "えき", "やま", "うみ", "まち", "みち", "そら", "もり"]
+    },
+    "6": {
+      "level_name": "Level 6",
+      "category": "Keluarga",
+      "words": ["はは", "ちち", "あね", "あni", "おとう", "いもう", "そぼ", "そふ"]
+    },
+    "7": {
+      "level_name": "Level 7",
+      "category": "Benda",
+      "words": ["ほん", "くつ", "かさ", "ふで", "かみ", "つくえ", "いす", "かばん"]
+    },
+    "8": {
+      "level_name": "Level 8",
+      "category": "Warna",
+      "words": ["あかい", "あおい", "しろい", "くろい", "きいろ", "みどり", "ちゃい"]
+    },
+    "9": {
+      "level_name": "Level 9",
+      "category": "Alam",
+      "words": ["あめ", "ゆき", "そら", "かぜ", "ほし", "つき", "はな", "くも"]
+    },
+    "10": {
+      "level_name": "Level 10",
+      "category": "Ritual Campuran",
+      "words": ["ねこ", "すし", "いち", "はは", "そら", "やま", "きつね", "うみ", "あめ"]
+    }
   }
 }
