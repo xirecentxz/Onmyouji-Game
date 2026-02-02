@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kotodama Ritual - Onmyoji Game</title>
-    <link rel="stylesheet" href="style.css?v=1.3">
+    <link rel="stylesheet" href="style.css?v=1.4">
 </head>
 <body>
     <div class="game-container">
@@ -30,16 +30,15 @@
             <div class="letter-slot"></div>
         </div>
 
-        <div class="support-container">
-            <button class="btn-support" onclick="addSupport('ゃ')">ゃ</button>
-            <button class="btn-support" onclick="addSupport('ゅ')">ゅ</button>
-            <button class="btn-support" onclick="addSupport('ょ')">ょ</button>
-            <button class="btn-support" onclick="addSupport('っ')">っ</button>
-        </div>
+        <div class="support-container" id="support-container">
+            </div>
 
         <div class="controls">
             <button onclick="clearWord()" class="btn btn-clear">Hapus</button>
             <button id="confirm-btn" onclick="confirmWord()" class="btn btn-confirm" disabled>SEGEL!</button>
+            
+            <button id="romaji-toggle-btn" onclick="toggleRomaji()" class="btn btn-romaji">Romaji: OFF</button>
+            
             <button id="hint-btn" onclick="showHint()" class="btn btn-hint">Onmyouroku</button>
             <button onclick="shuffleDeck()" class="btn btn-shuffle">Acak (-3s)</button>
         </div>
@@ -62,6 +61,6 @@
         </div>
     </div>
 
-    <script src="script.js?v=1.3"></script>
+    <script src="script.js?v=1.4"></script>
 </body>
 </html>
