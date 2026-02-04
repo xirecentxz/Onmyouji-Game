@@ -4,62 +4,142 @@
       "level_name": "Level 1: Rimba Purba",
       "category": "Hewan",
       "words": [
-        "たぬき", "しか", "はと", "かも", "さめ", 
-        "かに", "たこ", "いか", "かめ", "あり",
-        "はえ", "かえる", "くも", "きつね", "ねこ", 
-        "いぬ", "とり", "さkana", "くま", "うし", 
-        "うま", "さる", "とら", "りす"
-      ]
+        "たぬき", "しか", "はと", "かも", "さめ", "かに", "たこ", "いか", 
+        "かめ", "あり", "はえ", "かえる", "くも", "きつね", "ねこ", 
+        "いぬ", "とり", "さかな", "くま", "うし", "うま", "さる", 
+        "とら", "りす"
+      ],
+      "translations": {
+        "たぬき": "Rakun", "しか": "Rusa", "はと": "Merpati", "かも": "Bebek", 
+        "さめ": "Hiu", "かに": "Kepiting", "たこ": "Gurita", "いか": "Cumi-cumi",
+        "かめ": "Kura-kura", "あり": "Semut", "はえ": "Lalat", "かえる": "Katak", 
+        "くも": "Laba-laba", "きつね": "Rubah", "ねこ": "Kucing", "いぬ": "Anjing", 
+        "とり": "Burung", "さかな": "Ikan", "くま": "Beruang", "うし": "Sapi", 
+        "うま": "Kuda", "さる": "Monyet", "とら": "Harimau", "りす": "Tupai"
+      }
     },
     "2": {
       "level_name": "Level 2: Gerbang Desa",
       "category": "Percakapan",
       "words": [
-        "おはよう", "こんばんわ", "おやすみ", "ありがと", "すみませ",
-        "ごめんなさ", "ただいま", "おかえり", "げんきです", "またあした",
-        "もしもし", "どうぞ", "だれ", "どこ", "いつ", "なに",
-        "どうして", "どれ", "はい", "いいえ"
-      ]
+        "おはよう", "こんにちは", "こんばんは", "おやすみ", "ありがとう", 
+        "すみません", "ただいま", "おかえり", "もしもし", "どうぞ", 
+        "はい", "いいえ", "はじめまして"
+      ],
+      "translations": {
+        "おはよう": "Selamat pagi", "こんにちは": "Halo/Selamat siang", 
+        "こんばんは": "Selamat malam", "おやすみ": "Selamat tidur", 
+        "ありがとう": "Terima kasih", "すみません": "Maaf/Permisi", 
+        "ただいま": "Saya pulang", "おかえり": "Selamat datang (pulang)", 
+        "もしもし": "Halo (telepon)", "どうぞ": "Silakan", 
+        "はい": "Ya", "いいえ": "Tidak", "はじめまして": "Salam kenal"
+      }
     },
     "3": {
-      "level_name": "Level 3",
+      "level_name": "Level 3: Menghitung Roh",
       "category": "Angka",
-      "words": ["いち", "に", "さん", "よん", "ご", "ろく", "なな", "はち", "きゅう", "じゅう"]
+      "words": [
+        "ぜろ", "いち", "に", "さん", "よん", "ご", 
+        "ろく", "なな", "はち", "きゅう", "じゅう", "ひゃく"
+      ],
+      "translations": {
+        "ぜろ": "Nol", "いち": "Satu", "に": "Dua", "さん": "Tiga", 
+        "よん": "Empat", "ご": "Lima", "ろく": "Enam", "なな": "Tujuh", 
+        "はち": "Delapan", "きゅう": "Sembilan", "じゅう": "Sepuluh", "ひゃく": "Seratus"
+      }
     },
     "4": {
-      "level_name": "Level 4",
+      "level_name": "Level 4: Ritual Aksi",
       "category": "Aktivitas",
-      "words": ["いく", "ねる", "よむ", "みる", "たべる", "かく", "きく", "くる"]
+      "words": [
+        "いく", "ねる", "よむ", "みる", "たべる", "かく", 
+        "きく", "くる", "あう", "あらう", "いう", "のむ"
+      ],
+      "translations": {
+        "いく": "Pergi", "ねる": "Tidur", "よむ": "Membaca", "みる": "Melihat", 
+        "たべる": "Makan", "かく": "Menulis", "きく": "Mendengar", 
+        "くる": "Datang", "あう": "Bertemu", "あらう": "Mencuci", 
+        "いう": "Berkata", "のむ": "Minum"
+      }
     },
     "5": {
-      "level_name": "Level 5",
+      "level_name": "Level 5: Peta Dunia",
       "category": "Tempat",
-      "words": ["いえ", "えき", "やま", "うみ", "まち", "みち", "そら", "もり"]
+      "words": [
+        "いえ", "えき", "やま", "うmi", "まち", "みち", 
+        "そら", "こうえん", "ぎんこう", "がっこう", "びょういん"
+      ],
+      "translations": {
+        "いえ": "Rumah", "えき": "Stasiun", "やま": "Gunung", "うみ": "Laut", 
+        "まち": "Kota", "みち": "Jalan", "そら": "Langit", 
+        "こうえん": "Taman", "ぎんこう": "Bank", "가っこう": "Sekolah", 
+        "びょういん": "Rumah Sakit"
+      }
     },
     "6": {
-      "level_name": "Level 6",
+      "level_name": "Level 6: Ikatan Darah",
       "category": "Keluarga",
-      "words": ["はは", "ちち", "あね", "あに", "おとう", "いもう", "そぼ", "そふ"]
+      "words": [
+        "はは", "ちち", "あね", "あに", "おとうと", 
+        "いもうと", "そぼ", "そふ", "かぞく", "こども"
+      ],
+      "translations": {
+        "はは": "Ibu (saya)", "ちち": "Ayah (saya)", "あね": "Kakak Pr", 
+        "あに": "Kakak Lk", "おとうto": "Adik Lk", "いもうto": "Adik Pr", 
+        "そぼ": "Nenek", "そふ": "Kakek", "かぞく": "Keluarga", "こども": "Anak"
+      }
     },
     "7": {
-      "level_name": "Level 7",
+      "level_name": "Level 7: Segel Pusaka",
       "category": "Benda",
-      "words": ["ほん", "くつ", "かさ", "ふで", "かみ", "つくえ", "いす", "かばん"]
+      "words": [
+        "ほん", "くつ", "かさ", "かみ", "つくえ", 
+        "いす", "かばん", "とけい", "めがne", "さいふ"
+      ],
+      "translations": {
+        "ほん": "Buku", "くつ": "Sepatu", "かさ": "Payung", "かみ": "Kertas", 
+        "つくえ": "Meja", "いす": "Kursi", "かばん": "Tas", 
+        "とけい": "Jam", "めがね": "Kacamata", "さいふ": "Dompet"
+      }
     },
     "8": {
-      "level_name": "Level 8",
-      "category": "Warna",
-      "words": ["あかい", "あおい", "しろい", "くろい", "きいろ", "みどり", "ちゃい"]
+      "level_name": "Level 8: Aura Youkai",
+      "category": "Warna & Sifat",
+      "words": [
+        "あかい", "あおい", "しろい", "くろい", "きいろ", 
+        "みどり", "つよい", "よわい", "おおきい", "ちいさい"
+      ],
+      "translations": {
+        "あかい": "Merah", "あおい": "Biru", "しろい": "Putih", "くろい": "Hitam", 
+        "きいろ": "Kuning", "みどり": "Hijau", "つよい": "Kuat", 
+        "よわい": "Lemah", "おおきい": "Besar", "ちいさい": "Kecil"
+      }
     },
     "9": {
-      "level_name": "Level 9",
-      "category": "Alam",
-      "words": ["あめ", "ゆき", "そら", "かぜ", "ほし", "つき", "はな", "くも"]
+      "level_name": "Level 9: Waktu Ritual",
+      "category": "Waktu",
+      "words": [
+        "あめ", "ゆき", "かぜ", "ほし", "つき", "はな", 
+        "いま", "あした", "きょう", "あさ", "よる", "げつようび"
+      ],
+      "translations": {
+        "あめ": "Hujan", "ゆき": "Salju", "かぜ": "Angin", "ほし": "Bintang", 
+        "つき": "Bulan", "はな": "Bunga", "いま": "Sekarang", "あした": "Besok", 
+        "きょう": "Hari ini", "あさ": "Pagi", "よる": "Malam", "げつようび": "Senin"
+      }
     },
     "10": {
-      "level_name": "Level 10",
+      "level_name": "Level 10: Ritual Agung",
       "category": "Ritual Campuran",
-      "words": ["おはよう", "すし", "いち", "はは", "そら", "やま", "きつね", "うみ", "ありがと"]
+      "words": [
+        "にほんご", "せんせい", "がくせい", "じてんしゃ", 
+        "ともだち", "たべもの", "のみもの", "くだもの"
+      ],
+      "translations": {
+        "にほんご": "Bahasa Jepang", "せんせい": "Guru", "가くせい": "Siswa", 
+        "じてんしゃ": "Sepeda", "ともだち": "Teman", "たべもの": "Makanan", 
+        "のみもの": "Minuman", "くだもの": "Buah"
+      }
     }
   }
 }
